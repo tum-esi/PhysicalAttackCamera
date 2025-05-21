@@ -28,7 +28,7 @@ This document describes the steps performed to run the RP2 attack by Eykholt _et
     * To run the attack, please refer to [Reproduce our ImageNet results](#reproduce-our-imagenet-results-or-inception-v3)
 
 ## Reproduce our LISA-CNN results
-1. Download all the related data [**ADD LINK**]. Example: Open a terminal and run `wget [ADD LINK]`
+1. Download all the related data (https://os5.mycloud.com/action/share/46479ae7-0e05-44cf-b551-3fbdfc1a2d3a).
 2. Unzip the folder and all its contents
 3. Delete all existing images from `robust_physical_perturbations/lisa-cnn-attack/victim-set`
 4. Copy the all images, starting with "01_benign" from `<related data>/02_StaticPhysicalAdversarialDistortion/01_Attack_Preparation/01_LISA_CNN` into `robust_physical_perturbations/lisa-cnn-attack/victim-set`

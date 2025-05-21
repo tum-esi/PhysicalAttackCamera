@@ -30,7 +30,7 @@ _Hint:_ Since this attack requires hardware access to a functional webcam for in
 
 _Hint:_ Since this attack requires hardware access to a functional webcam for preparation steps, we provide as many data as possible, but the preparation steps must be performed physically.
 
-1. Download all the related data [**ADD LINK**]. Example: Open a terminal and run `wget [ADD LINK]`
+1. Download all the related data (https://os5.mycloud.com/action/share/46479ae7-0e05-44cf-b551-3fbdfc1a2d3a).
 2. Unzip the folder and all its contents
 3. Download the related original data from https://github.com/ssloxford/short-lived-adversarial-perturbations/releases/download/usenix21/data.zip. Example: Open a terminal and run `https://github.com/ssloxford/short-lived-adversarial-perturbations/releases/download/usenix21/data.zip`
 4. Unzip the folder and all its contents

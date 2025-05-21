@@ -27,7 +27,7 @@ This document describes the steps performed to run the adversarial laser beams a
 4. The results are stored in a subfolder `results` inside `Advlight`
 
 ## Reproduce our results
-1. Download all the related data [**ADD LINK**]. Example: Open a terminal and run `wget [ADD LINK]`
+1. Download all the related data (https://os5.mycloud.com/action/share/46479ae7-0e05-44cf-b551-3fbdfc1a2d3a).
 2. Unzip the folder and all its contents
 3. Copy the image `<related data>/01_TargetedLight/01_Attack_Preparation/01_benign.jpg` into `Advlight/tests`
 4. Rename the copied file inside `Advlight/tests` into `919.jpg`
