@@ -1,0 +1,66 @@
+diff --git a/test.py b/test.py
+index 791fb92..905a820 100644
+--- a/test.py
++++ b/test.py
+@@ -17,14 +17,14 @@ import torchvision.transforms.functional as transf
+ 
+ parser = argparse.ArgumentParser()
+ 
+-parser.add_argument('--dataset', type=str, default='./query_imagenet', help='location of the data corpus')
++parser.add_argument('--dataset', type=str, default='./tests', help='location of the data corpus')
+ parser.add_argument('--portion_for_search', type=float, default=1.0, help='portion of training data')
+ parser.add_argument('--batch_size', type=int, default=1, help='batch size')
+ parser.add_argument('--trial_nums', type=int, default=300, help='number of the trials')
+ parser.add_argument('--model', type=str, default='resnet50', help='org model or adv trained model df_resnet50')
+ parser.add_argument('--output_csv', type=str, default='random_search.csv', help='number of the trials')
+ parser.add_argument('--save_dir', type=str, default='./results', help='dir to save results')
+-parser.add_argument('--save', type=str, default=False, help='Save results')
++parser.add_argument('--save', type=str, default=True, help='Save results')
+ args = parser.parse_args()
+ 
+ # transform
+@@ -44,7 +44,7 @@ elif args.model == 'df_resnet50':
+     print("Loading adv trained model...")
+     model = resnet50(pretrained=False)
+     model.load_state_dict(torch.load('./model/checkpoint-89.pth.tar')['state_dict'])
+-model.cuda()
++#model.cuda()
+ model.eval()
+ 
+ # dataset
+@@ -95,7 +95,7 @@ for image_path, target in tqdm(imagenet_dataset):
+     # clean
+     clean_image = img.resize((256, 256), Image.BILINEAR)
+     clean_image = test_transform(clean_image).unsqueeze(0)
+-    clean_image = clean_image.cuda()
++    #clean_image = clean_image.cuda()
+     with torch.no_grad():
+         org_pred_label = model(clean_image)
+         org_pred_label = org_pred_label.cpu().detach()
+@@ -115,7 +115,7 @@ for image_path, target in tqdm(imagenet_dataset):
+     # init_v = V[np.random.randint(len(V))]
+     params_list = []
+     for i in range(200):
+-        init_v_it = [np.random.randint(380, 750), np.random.randint(0,180), np.random.randint(0,400), np.random.randint(10, 1600)]
++        init_v_it = [np.random.randint(700, 701), np.random.randint(0,180), np.random.randint(0,400), np.random.randint(10, 1600)]
+         params_list.append(init_v_it)
+ 
+     for init_v in params_list:
+@@ -129,7 +129,7 @@ for image_path, target in tqdm(imagenet_dataset):
+                 cur_search += 1
+                 #print(a*q)
+                 temp_q = init_v + a*q
+-                temp_q = np.clip(temp_q, [380, 0, 0, 10], [750, 180, 400, 1600])
++                temp_q = np.clip(temp_q, [700, 0, 0, 10], [701, 180, 400, 1600])
+                 
+                 radians = math.radians(temp_q[1])
+                 k = round(math.tan(radians), 2)
+@@ -144,7 +144,7 @@ for image_path, target in tqdm(imagenet_dataset):
+ 
+                 img_with_light = img_with_light.resize((224, 224), Image.BILINEAR)
+                 img_with_light = test_transform(img_with_light).unsqueeze(0)
+-                img_with_light = img_with_light.cuda()
++                #img_with_light = img_with_light.cuda()
+                 with torch.no_grad():
+                     cur_pred_label = model(img_with_light)
+                     cur_pred_label = cur_pred_label.cpu().detach()

@@ -1,0 +1,66 @@
+diff --git a/imagenet-attack/config_attack/replicate-smallestmask-smallertv.json b/imagenet-attack/config_attack/replicate-smallestmask-smallertv.json
+index 1cce79e..df14024 100644
+--- a/imagenet-attack/config_attack/replicate-smallestmask-smallertv.json
++++ b/imagenet-attack/config_attack/replicate-smallestmask-smallertv.json
+@@ -1,6 +1,6 @@
+ {
+     "attack_epochs": 30000,
+-    "attack_batch_size": 23,
++    "attack_batch_size": 6,
+     "image_height": 299,
+     "image_width": 299,
+     "image_channels": 3,
+@@ -20,11 +20,11 @@
+     "l2image": "panda.png",
+     "attack_learning_rate": 0.1,
+     "model_path": "inception_v3.ckpt",
+-    "attack_mask": "masks/mask-mug-smallest-299.png",
+-    "attack_target": 481,
+-    "attack_srcdir": "/data/experimental_images/mug/cropped",
+-    "validation_set": "/data/experimental_images/mug/val/cropped",
+-    "save_folder": "./output_noisegen/",
++    "attack_mask": "masks/00_mask.png",
++    "attack_target": 817,
++    "attack_srcdir": "./data/victim",
++    "validation_set": "./data/validation",
++    "save_folder": "./data/out",
+     "save_freq": 100, 
+     "transform_mean": 0.0, 
+     "transform_stddev": 30.0,
+diff --git a/lisa-cnn-attack/Pipfile b/lisa-cnn-attack/Pipfile
+index 9b7e63f..014dbe4 100644
+--- a/lisa-cnn-attack/Pipfile
++++ b/lisa-cnn-attack/Pipfile
+@@ -1,12 +1,11 @@
+ [[source]]
+-url = "https://pypi.python.org/simple"
++url = "https://pypi.org/simple"
+ verify_ssl = true
+ name = "pypi"
+ 
+-[dev-packages]
+-
+ [packages]
+-opencv-python = "*"
+-Pillow = "*"
+-Keras = "==1.2.2"
+-tensorflow-gpu = "==1.4.1"
++
++[requires]
++python_version = "2.7"
++
++[dev-packages]
+diff --git a/lisa-cnn-attack/run_attack_many.sh b/lisa-cnn-attack/run_attack_many.sh
+index a035aac..bdf7563 100755
+--- a/lisa-cnn-attack/run_attack_many.sh
++++ b/lisa-cnn-attack/run_attack_many.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+-export SIGN_PREFIX="octagon"
++export SIGN_PREFIX="l1basedmask_uniformrectangles"
+ export SIGN_SETPOINT=0.37
+-export SIGN_MASK="octagon.png"
++export SIGN_MASK="mask_l1loss_uniform_rectangles.png"
+ export SIGN_TARGET=12
+ 
+ mkdir optimization_output/${SIGN_PREFIX}

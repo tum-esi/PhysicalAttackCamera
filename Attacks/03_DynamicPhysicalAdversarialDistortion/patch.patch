@@ -1,0 +1,80 @@
+diff --git a/code/projector/profile.py b/code/projector/profile.py
+index e7ee66f..6055819 100755
+--- a/code/projector/profile.py
++++ b/code/projector/profile.py
+@@ -443,7 +443,7 @@ if __name__ == "__main__":
+     assert 20000 > lux_on_stop_sign > 0, "Invalid lux range"
+ 
+     # setup output folder
+-    output_folder = os.path.join("/", "home", "data", args.experiment_id, "profile", lux_on_stop_sign, args.object_id)
++    output_folder = os.path.join("/", "home", "data", args.experiment_id, "profile", str(lux_on_stop_sign), args.object_id)
+     os.makedirs(output_folder, exist_ok=True)
+ 
+     # if this script has been run before, reload the old parameters before repeating it
+diff --git a/code/projector/projector_utils.py b/code/projector/projector_utils.py
+index 2d24083..0057208 100644
+--- a/code/projector/projector_utils.py
++++ b/code/projector/projector_utils.py
+@@ -15,7 +15,8 @@ def get_moments(cont):
+ 
+ 
+ def get_exposure_abs():
+-    check_exposure_abs_cmd = ["v4l2-ctl", "--get-ctrl=exposure_absolute"]
++    #check_exposure_abs_cmd = ["v4l2-ctl", "--get-ctrl=exposure_absolute"]
++    check_exposure_abs_cmd = ["v4l2-ctl", "--get-ctrl=exposure_time_absolute"]
+     output_abs_exp = subprocess.check_output(check_exposure_abs_cmd).decode("utf-8")
+     output_abs_exp = output_abs_exp.rstrip("\n").split(":")[-1].strip(" ")
+     exposure_v = int(output_abs_exp)
+@@ -25,7 +26,8 @@ def get_exposure_abs():
+ def set_exposure_abs(value):
+     assert 0<value<2048
+     print("Exposure set to %s" %value)
+-    set_exposure_val_cmd = "v4l2-ctl --set-ctrl=exposure_absolute=%d"
++    #set_exposure_val_cmd = "v4l2-ctl --set-ctrl=exposure_absolute=%d"
++    set_exposure_val_cmd = "v4l2-ctl --set-ctrl=exposure_time_absolute=%d"
+     subprocess.call((set_exposure_val_cmd % value).split(" "))
+     exposure_v = get_exposure_abs()
+     return exposure_v
+@@ -34,7 +36,8 @@ def set_exposure_abs(value):
+ def get_exposure_auto():
+     check_auto_exposure_cmd = [
+         "v4l2-ctl",
+-        "--get-ctrl=exposure_auto"
++        #"--get-ctrl=exposure_auto"
++        "--get-ctrl=auto_exposure"
+     ]
+     output_auto_exp = subprocess.check_output(check_auto_exposure_cmd).decode("utf-8")
+     output_auto_exp = output_auto_exp.rstrip("\n").split(":")[-1].strip(" ")
+@@ -43,7 +46,8 @@ def get_exposure_auto():
+ 
+ def set_exposure_auto(value):
+     assert value in [1, 3]
+-    set_auto_exposure_cmd = "v4l2-ctl --set-ctrl=exposure_auto=%d"
++    #set_auto_exposure_cmd = "v4l2-ctl --set-ctrl=exposure_auto=%d"
++    set_auto_exposure_cmd = "v4l2-ctl --set-ctrl=auto_exposure=%d"
+     subprocess.call((set_auto_exposure_cmd % 1).split(" "))
+     exp_auto_v = get_exposure_auto()
+     return exp_auto_v
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 8b3b8b1..926e35d 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -10,7 +10,8 @@ services:
+             - "5749:5749"
+         environment:
+             - QT_X11_NO_MITSHM=1
+-            - DISPLAY=$DISPLAY
++            - DISPLAY=${DISPLAY}
++            - XAUTHORITY=/root/.Xauthority
+         container_name: slap_container
+         stdin_open: true
+         tty: true
+@@ -18,3 +19,8 @@ services:
+             - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+             - "./code:/home/code"
+             - "./data:/home/data"
++            - "/tmp/.docker.xauth:/tmp/.docker.xauth"
++            - "$HOME/.Xauthority:/root/.Xauthority:rw"
++        devices:
++           - "/dev/video0:/dev/video0"
++        network_mode: "host"
