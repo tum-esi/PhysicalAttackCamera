@@ -1,6 +1,6 @@
-# Collection of ML models used in our R+R work
+# Collection of ML models used in our work
 
-This is a collection of R+R models that were used in our R+R work:
+This is a collection of ML models that were used in our work:
 
 * [ResNet50](./ResNet/)
 * [ConvNeXt L](./ConvNeXt/)

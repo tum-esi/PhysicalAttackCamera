@@ -1,6 +1,6 @@
 # Cropping of images
 
-This tool allows to crop images (used for example in Figure 7a of our R+R work).
+This tool allows to crop images (used for example in Figure 7a of our work).
 
 ## Dependencies
 * Python 3.12

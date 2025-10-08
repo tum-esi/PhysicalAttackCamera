@@ -1,6 +1,6 @@
 # Digital placement of adversarial patterns
 
-This tool allows to digitally place adversarial patches onto benign images (used for Figures 7b and 7c of our R+R work).
+This tool allows to digitally place adversarial patches onto benign images (used for Figures 7b and 7c of our work).
 
 ## Dependencies
 * Python 3.12
